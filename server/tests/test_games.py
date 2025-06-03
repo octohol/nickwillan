@@ -1,3 +1,9 @@
+"""
+Unit tests for the games API routes.
+
+This module contains test cases for the games REST API endpoints,
+testing both successful operations and error conditions.
+"""
 import unittest
 import json
 from typing import Dict, List, Any, Optional
@@ -6,6 +12,12 @@ from models import Game, Publisher, Category, db, init_db
 from routes.games import games_bp
 
 class TestGamesRoutes(unittest.TestCase):
+    """
+    Test class for games API endpoints.
+    
+    Tests all games-related API routes including listing all games
+    and retrieving individual games by ID.
+    """
     # Test data as complete objects
     TEST_DATA: Dict[str, Any] = {
         "publishers": [
