@@ -1,8 +1,20 @@
+"""
+Game model for the Tailspin Toys crowdfunding platform.
+
+This module defines the Game model representing games available for crowdfunding,
+including their titles, descriptions, ratings, and relationships to publishers and categories.
+"""
 from . import db
 from .base import BaseModel
 from sqlalchemy.orm import validates, relationship
 
 class Game(BaseModel):
+    """
+    Model representing a game available for crowdfunding.
+    
+    Stores game information including title, description, star rating,
+    and relationships to publisher and category entities.
+    """
     __tablename__ = 'games'
     
     id = db.Column(db.Integer, primary_key=True)
@@ -20,18 +32,51 @@ class Game(BaseModel):
     
     @validates('title')
     def validate_name(self, key, name):
+        """
+        Validate the game title field.
+        
+        Args:
+            key: The field name being validated
+            name: The title value to validate
+            
+        Returns:
+            str: The validated title
+        """
         return self.validate_string_length('Game title', name, min_length=2)
     
     @validates('description')
     def validate_description(self, key, description):
+        """
+        Validate the game description field.
+        
+        Args:
+            key: The field name being validated
+            description: The description value to validate
+            
+        Returns:
+            str: The validated description
+        """
         if description is not None:
             return self.validate_string_length('Description', description, min_length=10, allow_none=True)
         return description
     
     def __repr__(self):
+        """
+        Return a string representation of the Game object.
+        
+        Returns:
+            str: String representation including game title and ID
+        """
         return f'<Game {self.title}, ID: {self.id}>'
 
     def to_dict(self):
+        """
+        Convert the Game object to a dictionary for JSON serialization.
+        
+        Returns:
+            dict: Dictionary representation of the game with all fields
+                 including nested publisher and category information
+        """
         return {
             'id': self.id,
             'title': self.title,
